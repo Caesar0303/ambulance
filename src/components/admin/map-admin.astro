@@ -1,0 +1,34 @@
+---
+import { Image, imageConfig } from "astro:assets";
+import Menu from "../main/menu.astro";
+import Footer from "./footer-info.astro";
+import DropDown from "./drop-down.astro";
+---
+
+<div class="fluid">
+    <div class="container">
+        <div class="content">
+            <div class="header">
+                <Menu />
+                <DropDown />
+            </div>
+            <Footer />
+        </div>
+    </div>
+</div>
+
+<style>
+    .content {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        height: 96vh;
+        justify-content: space-between;
+    }
+    .header {
+        margin-top: 26px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+</style>

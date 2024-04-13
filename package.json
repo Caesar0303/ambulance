@@ -1,0 +1,27 @@
+{
+    "name": "artlumia",
+    "type": "module",
+    "version": "0.0.1",
+    "license": "MIT",
+    "scripts": {
+        "dev": "astro dev",
+        "start": "astro dev",
+        "build": "astro build",
+        "preview": "astro preview",
+        "astro": "astro"
+    },
+    "dependencies": {
+        "@astrojs/vercel": "^5.2.0",
+        "astro": "^3.2.3",
+        "astro-google-fonts-optimizer": "^0.2.2",
+        "astro-icon": "^0.8.1",
+        "axios": "^1.6.8",
+        "keen-slider": "^6.8.6",
+        "lozad": "^1.16.0",
+        "typescript": "^5.2.2",
+        "vue": "^3.4.21"
+    },
+    "devDependencies": {
+        "@vitejs/plugin-vue": "^4.4.1"
+    }
+}

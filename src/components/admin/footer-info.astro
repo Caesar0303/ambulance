@@ -1,0 +1,101 @@
+---
+
+---
+
+<div class="fon">
+    <div class="left-content">
+        <button class="grid-item" type="button"
+        ><p class="p600-18">Связаться с бригадой</p></button
+        >
+        <button class="grid-item" type="button" id="create-brigade-btn"
+        ><p class="p600-18">Создать новую бригаду</p></button
+        >
+        <button class="grid-item" type="button"
+        ><p class="p600-18">Редактировать</p></button
+        >
+        <button class="grid-item get-order" type="button"
+        ><p class="p600-18">Отправить на вызов</p></button
+        >
+    </div>
+    <div class="right-content">
+        <p class="p700-36">Бригада #15</p>
+        <p class="p400-16">
+            Выполняет вызов: <b>Сейфуллина 15А</b>
+            <br />
+            Категория вызова: <b>2</b><br />
+            Коментарий: <b>Болит живот какать не может, все плохо</b>
+            <br />
+        </p>
+    </div>
+</div>
+
+<style>
+    .p700-36 {
+        color: #000;
+        font-family: "Proxima Nova";
+        font-size: 36px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+    }
+    .p600-18 {
+        color: #282828;
+        text-align: center;
+        font-family: "Proxima Nova";
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+    .fon {
+        padding: 22px;
+        border-radius: 30px;
+        background: #fff;
+
+        display: flex;
+        flex-direction: row;
+        gap: 40px;
+    }
+    .left-content {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 2 столбца */
+        grid-template-rows: repeat(2, 1fr); /* 2 строки */
+        gap: 10px;
+    }
+    .grid-item {
+        padding: 16px 33px 16px;
+        border-radius: 10px;
+        border: 1px solid #282828;
+        background-color: #fff;
+        cursor: pointer;
+    }
+
+    .get-order {
+        border: none;
+        background-color: #32d22e;
+    }
+    .get-order .p600-18 {
+        color: #fff;
+    }
+    .right-content .p700-36 {
+        margin-bottom: 10px;
+    }
+</style>
+
+<script>
+    import axios from 'axios';
+
+    const createBrigadeBtn = document.getElementById('create-brigade-btn');
+
+    createBrigadeBtn.addEventListener('click', () => {
+        axios.post('http://localhost:8000/api/add_brigade', { board_number: 12, first_user: 123123, second_user: 1212, third_user: 5132, brigade_tablet_phone_number:64333  })
+            .then(response => {
+                console.log(response.data);
+                alert('Бригада создана успешно');
+            })
+            .catch(error => {
+                console.error(error);
+                alert('Произошла ошибка при создании бригады');
+            });
+    });
+</script>

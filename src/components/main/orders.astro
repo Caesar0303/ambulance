@@ -1,0 +1,103 @@
+---
+import MenuAdmin from "../admin/menu-admin.astro";
+---
+
+<div class="fluid">
+    <div class="container">
+        <div class="telo">
+            <div class="left-menu">
+                <MenuAdmin class="menu" />
+            </div>
+            <div class="content">
+                <p class="p700-56">Мои вызовы</p>
+                <div class="grid-container">
+                    <p class="p600-20 grid-item">Адрес</p>
+                    <p class="p600-20 grid-item">Время прибытия</p>
+                    <p class="p600-20 grid-item">Общее время</p>
+                    <p class="p600-20 grid-item">Категория</p>
+
+                    <p class="p600-20 grid-item">Наурызбай батыра 69А</p>
+                    <p class="p600-20 grid-item">12:32</p>
+                    <p class="p600-20 grid-item">32:56</p>
+                    <p class="p600-20 grid-item">1 Категория</p>
+
+
+                    <p class="p600-20 grid-item">Хахольская 324</p>
+                    <p class="p600-20 grid-item">12:32</p>
+                    <p class="p600-20 grid-item">32:56</p>
+                    <p class="p600-20 grid-item">2 Категория</p>
+
+                    <p class="p600-20 grid-item">Хахольская 324</p>
+                    <p class="p600-20 grid-item">12:32</p>
+                    <p class="p600-20 grid-item">32:56</p>
+                    <p class="p600-20 grid-item">3 Категория</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .p700-56 {
+        color: #323232;
+        font-family: "Proxima Nova";
+        font-size: 56px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+    }
+    .p700-16 {
+        color: #323232;
+        font-family: "Proxima Nova";
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        letter-spacing: 3.2px;
+        text-transform: uppercase;
+        opacity: 0.7;
+    }
+    .p600-20 {
+        color: #323232;
+        font-family: "Proxima Nova";
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+
+    .telo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .left-menu {
+        display: flex;
+        width: 100%;
+        justify-content: flex-end;
+        margin-top: 20px;
+    }
+    .content {
+        width: 100%;
+        margin-top: 50px;
+        flex-direction: column;
+        display: flex;
+        gap: 33px;
+    }
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto auto auto auto; /* Определяет две колонки */
+        grid-template-rows: auto auto auto auto; /* Определяет четыре строки */
+        padding: 0px; /* Внутренний отступ контейнера сетки */
+        border-radius: 10px;
+
+    }
+
+    .grid-item {
+        background-color: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        text-align: start;
+    }
+    
+</style>

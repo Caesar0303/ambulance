@@ -1,0 +1,100 @@
+---
+import { Image } from "astro:assets";
+---
+
+<div id="exit">
+    <div id="okno">
+        <p class="p400-24">aswfegsrhdjfghjgfdsadfdghhfd</p>
+    </div>
+</div>
+
+<a href="/login" class="btm-none-dec">
+    <div class="psw red">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+        >
+            <path
+                d="M5 11H13V13H5V16L0 12L5 8V11ZM3.99927 18H6.70835C8.11862 19.2447 9.97111 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C9.97111 4 8.11862 4.75527 6.70835 6H3.99927C5.82368 3.57111 8.72836 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C8.72836 22 5.82368 20.4289 3.99927 18Z"
+                fill="#EF1E1E"></path>
+        </svg>
+        <p class="p700-24 m0"><b>Выйти из системы</b></p>
+    </div>
+</a>
+
+<style>
+    .p400-24 {
+        color: #000;
+
+        font-family: "Proxima Nova";
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+
+        text-align: start;
+        text-decoration: none;
+        margin: 0;
+    }
+    .btm-none-dec{
+        border: none;
+    }
+    a {
+        text-decoration: none;
+    }
+    .m0 {
+        margin: 0;
+    }
+    .psw {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 11px;
+        margin: 0;
+    }
+
+    .red {
+        color: #ef1e1e;
+        margin: 0;
+    }
+    #exit {
+        background: rgba(249, 0, 0, 0.5);
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: none;
+    }
+    #okno {
+        width: 50%;
+        height: 50%;
+        text-align: center;
+        padding: 30px 70px 56px 70px;
+        border: none;
+        border-radius: 10px;
+        position: absolute;
+        top: -200px;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        background: #e50f0f;
+    }
+    #exit:target {
+        display: block;
+    }
+    .close {
+        padding: 0 12px;
+        margin: 10px;
+        border: none;
+        text-decoration: none;
+        background: #f2f2f2;
+        font-size: 14pt;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+</style>

@@ -1,0 +1,93 @@
+---
+import Menu from "../main/menu.astro";
+---
+
+<div class="fluid">
+    <div class="container">
+        <div class="telo">
+            <div class="left-menu">
+                <Menu class="menu" />
+            </div>
+            <div class="content">
+                <p class="p700-56">Бригада</p>
+                <div class="grid-container">
+                    <p class="p600-20 grid-item">Имя</p>
+                    <p class="p600-20 grid-item">Должность</p>
+
+                    <p class="p600-20 grid-item">Смолов Алексей Хохольский</p>
+                    <p class="p600-20 grid-item">Врач</p>
+
+                    <p class="p600-20 grid-item">Бисекенов Акылбек Фиферович</p>
+                    <p class="p600-20 grid-item">Водила</p>
+
+                    <p class="p600-20 grid-item">Баллотели Марио Альбертович</p>
+                    <p class="p600-20 grid-item">Танцор</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .p700-56 {
+        color: #323232;
+        font-family: "Proxima Nova";
+        font-size: 56px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+    }
+    .p700-16 {
+        color: #323232;
+        font-family: "Proxima Nova";
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        letter-spacing: 3.2px;
+        text-transform: uppercase;
+        opacity: 0.7;
+    }
+    .p600-20 {
+        color: #323232;
+        font-family: "Proxima Nova";
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+
+    .telo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .left-menu {
+        display: flex;
+        width: 100%;
+        justify-content: flex-end;
+        margin-top: 20px;
+    }
+    .content {
+        width: 100%;
+        margin-top: 50px;
+        flex-direction: column;
+        display: flex;
+        gap: 33px;
+    }
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto auto; /* Определяет две колонки */
+        grid-template-rows: auto auto auto auto; /* Определяет четыре строки */
+        border-radius: 10px;
+        padding: 0;
+    }
+
+    .grid-item {
+        background-color: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        text-align: start;
+    }
+    
+</style>

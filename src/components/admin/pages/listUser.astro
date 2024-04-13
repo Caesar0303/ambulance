@@ -1,0 +1,159 @@
+---
+import MenuAdmin from "../menu-admin.astro";
+---
+
+<div class="fluid">
+    <div class="container">
+        <div class="telo">
+            <div class="left-menu">
+                <MenuAdmin class="menu" />
+            </div>
+            <div class="content">
+                <div class="dFlex">
+                    <p class="p700-56">Сотрудники</p>
+                    <p class="p400-28">Добавить сотрудника</p>
+                </div>
+
+                <div class="grid-container">
+                    <p class="p600-20 grid-item">Фио</p>
+                    <p class="p600-20 grid-item">бригада</p>
+                    <p class="p600-20 grid-item">Должность</p>
+
+                    <p class="p600-20 grid-item">Alise Vanckoe</p>
+                    <p class="p600-20 grid-item">15 бригада</p> 
+                    <p class="p600-20 grid-item">Водитель <a href="/userInfo">редактировать</a> <a href="">Удалить</a></p>
+
+                    <p class="p600-20 grid-item">Lirui oneshot</p>
+                    <p class="p600-20 grid-item">15 бригада</p>
+                    <p class="p600-20 grid-item">Санитар</p>
+<!-- 
+                    <p class="p600-20 grid-item">Адрес</p>
+                    <p class="p600-20 grid-item">Телефон</p>
+                    <p class="p600-20 grid-item">Бригада</p>
+                    <p class="p600-20 grid-item">Статус</p>
+                    <p class="p600-20 grid-item">Отправка</p>
+                    <p class="p600-20 grid-item">Прибытие</p>
+
+                    <p class="p600-20 grid-item">Наурызбай батыра 69А</p>
+                    <p class="p600-20 grid-item">+ 7 (777) 123 12 12</p>
+                    <p class="p600-20 grid-item">16</p>
+                    <p class="p600-20 grid-item">
+                        <span class="green"> принят</span>
+                    </p>
+                    <p class="p600-20 grid-item">12:24</p>
+                    <p class="p600-20 grid-item">12:44</p>
+
+                    <p class="p600-20 grid-item">Хахольская 324</p>
+                    <p class="p600-20 grid-item">+ 7 (777) 123 12 12</p>
+                    <p class="p600-20 grid-item">15</p>
+                    <p class="p600-20 grid-item">
+                        <span class="green"> принят</span>
+                    </p>
+                    <p class="p600-20 grid-item">15:32</p>
+                    <p class="p600-20 grid-item">16:42</p>
+
+                    <p class="p600-20 grid-item">Абая 8а</p>
+                    <p class="p600-20 grid-item">+ 7 (747) 983 56 45</p>
+                    <p class="p600-20 grid-item">15</p>
+                    <p class="p600-20 grid-item">
+                        <span class="red"> не принят</span>
+                    </p>
+                    <p class="p600-20 grid-item">11:12</p>
+                    <p class="p600-20 grid-item">11:32</p> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .p400-28 {
+        color: #000;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+    .p700-56 {
+        color: #323232;
+        font-family: "Proxima Nova";
+        font-size: 56px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+    }
+    .p700-16 {
+        color: #323232;
+        font-family: "Proxima Nova";
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        letter-spacing: 3.2px;
+        text-transform: uppercase;
+        opacity: 0.7;
+    }
+    .p600-20 {
+        color: #323232;
+        font-family: "Proxima Nova";
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+
+    .telo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .left-menu {
+        display: flex;
+        width: 100%;
+        justify-content: flex-end;
+        margin-top: 20px;
+    }
+    .content {
+        width: 100%;
+        margin-top: 50px;
+        flex-direction: column;
+        display: flex;
+        gap: 33px;
+    }
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto auto auto; /* Определяет 4 колонки */
+        padding: 0px; /* Внутренний отступ контейнера сетки */
+        border-radius: 10px;
+    }
+
+    .grid-item {
+        background-color: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        text-align: start;
+    }
+    .dFlex {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .dFlex .p400-28 {
+        opacity: 0.6;
+    }
+    span::before {
+        content: "";
+        display: inline-block;
+        width: 10px; /* Размер кружочка */
+        height: 10px; /* Размер кружочка */
+        border-radius: 50%; /* Делаем края круглыми */
+        margin-right: 5px; /* Отступ справа */
+    }
+    .green::before {
+        background-color: #7ec227; /* Цвет кружочка */
+    }
+    .red::before {
+        background-color: #ea2b2b; /* Цвет кружочка */
+    }
+</style>

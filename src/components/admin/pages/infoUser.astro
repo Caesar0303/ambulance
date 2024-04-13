@@ -1,0 +1,127 @@
+---
+import MenuAdmin from "../menu-admin.astro";
+---
+
+<div class="fluid">
+    <div class="container">
+        <div class="left-menu">
+            <MenuAdmin class="menu" />
+        </div>
+        <div class="telo">
+            <p class="p700-46">Информация о сотруднике</p>
+            <div class="grid-container">
+                <input
+                    class="grid-item"
+                    type="text"
+                    placeholder="Имя"
+                />
+                <input
+                    class="grid-item"
+                    type="text"
+                    placeholder="Фамилия"
+                />
+                <input
+                    class="grid-item"
+                    type="text"
+                    placeholder="ИИН"
+                />
+                <input
+                    class="grid-item"
+                    type="text"
+                    placeholder="Должность"
+                />
+                <input
+                    class="grid-item"
+                    type="text"
+                    placeholder="Номер телефона"
+                />
+                <input
+                    class="grid-item grid-btn"
+                    type="button"
+                    value="редактировать"
+                />
+            </div>
+
+            <div class="empty">
+                <a href="#!" class="delete">Удалить сотрудника </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    .p700-46 {
+        color: #323232;
+        font-family: "Proxima Nova";
+        font-size: 46px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+    }
+    .left-menu {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 30px;
+    }
+    .container .p700-46 {
+        margin-top: 10vh;
+    }
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto auto; /* 2 столбца */
+        grid-template-rows: auto auto auto; /* 3 строки */
+        gap: 30px; /* пространство между ячейками */
+        margin-top: 40px;
+        margin-bottom: 20px;
+    }
+    .grid-item {
+        padding: 20px 20px 20px 36px;
+        border: 2px solid #fff;
+        text-align: start;
+        border-radius: 50px;
+        background: #fff;
+        color: #282828;
+        font-family: "Proxima Nova";
+        font-size: 24px;
+        font-style: normal;
+
+        font-weight: 400;
+        line-height: normal;
+    }
+    .grid-btn {
+        background: #007aff;
+        color: #fff;
+        text-align: center;
+        width: 100%;
+
+    }
+    .grid-item:hover {
+        background: #f5f5f5;
+        border: 2px solid #fff;
+        box-shadow: 4px 3px 2px 2px rgba(0, 0, 255, .2);
+
+    }
+    .grid-item:active {
+        background: #f5f5f5;
+        border: 2px solid #fff;
+    }
+
+    .grid-btn:hover {
+        background-color: #0070e8;
+    }
+    .grid-btn:active {
+        box-shadow:
+            inset -3px -3px 3px rgb(255 255 255 / 60%),
+            inset 2px 2px 3px rgb(0 0 0 / 60%);
+    }
+    .empty{
+        width: 100%;
+        display: flex;
+    }
+    .delete{
+        margin: auto;
+        color: #F44747;
+    }
+</style>

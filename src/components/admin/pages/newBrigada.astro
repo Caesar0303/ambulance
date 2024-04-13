@@ -1,0 +1,141 @@
+---
+import MenuAdmin from "../menu-admin.astro";
+---
+
+
+<div class="fluid">
+    <div class="container">
+        <div class="left-menu">
+            <MenuAdmin class="menu" />
+        </div>
+        <div class="telo">
+            <p class="p700-46">Создать новую бригаду</p>
+            <div class="grid-container">
+                <input
+                        class="grid-item"
+                        type="text"
+                        placeholder="Бортовой номер"
+                        id="bort_number"
+                />
+                <input
+                        class="grid-item"
+                        type="text"
+                        placeholder="Водитель"
+                        id="driver"
+                />
+                <input
+                        class="grid-item"
+                        type="text"
+                        placeholder="Фельтшер"
+                        id="feldsher"
+                />
+                <input
+                        class="grid-item"
+                        type="text"
+                        placeholder="Врач"
+                        id="doctor"
+                />
+                <input
+                        class="grid-item"
+                        type="text"
+                        placeholder="Врач телефона планшета бригады"
+                        id="tablet_phone"
+                />
+                <input
+                        class="grid-item grid-btn"
+                        type="button"
+                        value="Отправить"
+                        id="create-brigade-btn"
+                />
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    import axios from 'axios';
+
+    const createBrigadeBtn = document.getElementById('create-brigade-btn');
+
+    createBrigadeBtn.addEventListener('click', () => {
+        const boardNumber = document.getElementById('bort_number').value;
+        const firstUser = document.getElementById('driver').value;
+        const secondUser = document.getElementById('feldsher').value;
+        const thirdUser = document.getElementById('doctor').value;
+        const brigadeTabletPhoneNumber = document.getElementById('tablet_phone').value;
+
+        axios.post('http://localhost:8000/api/add_brigade', { board_number: boardNumber, first_user: firstUser, second_user: secondUser, third_user: thirdUser, brigade_tablet_phone_number: brigadeTabletPhoneNumber })
+            .then(response => {
+                console.log(response.data);
+                alert('Бригада создана успешно');
+            })
+            .catch(error => {
+                console.error(error);
+                alert('Произошла ошибка при создании бригады');
+            });
+    });
+</script>
+<style>
+    .p700-46 {
+        color: #323232;
+        font-family: "Proxima Nova";
+        font-size: 46px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+    }
+    .left-menu {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 30px;
+    }
+    .container .p700-46 {
+        margin-top: 10vh;
+    }
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto auto; /* 2 столбца */
+        grid-template-rows: auto auto auto; /* 3 строки */
+        gap: 30px; /* пространство между ячейками */
+        margin-top: 40px;
+    }
+    .grid-item {
+        padding: 20px 20px 20px 36px;
+        border: 1px solid #fff;
+        text-align: start;
+        border-radius: 50px;
+        background: #fff;
+        color: #282828;
+        font-family: "Proxima Nova";
+        font-size: 24px;
+        font-style: normal;
+
+        font-weight: 400;
+        line-height: normal;
+    }
+    .grid-btn {
+        background: #007aff;
+        color: #fff;
+        text-align: center;
+        width: 100%;
+
+    }
+    .grid-item:hover {
+        background: #f5f5f5;
+        border: 1px solid #fff;
+    }
+    .grid-item:active {
+        background: #f5f5f5;
+        border: 1px solid #fff;
+    }
+
+    .grid-btn:hover {
+        background-color: #0070e8;
+    }
+    .grid-btn:active {
+        box-shadow:
+            inset -3px -3px 3px rgb(255 255 255 / 60%),
+            inset 2px 2px 3px rgb(0 0 0 / 60%);
+    }
+    
+</style>
