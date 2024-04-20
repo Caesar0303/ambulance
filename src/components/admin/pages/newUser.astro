@@ -14,36 +14,73 @@ import MenuAdmin from "../menu-admin.astro";
                     class="grid-item"
                     type="text"
                     placeholder="Имя"
+                    id="first_name"
                 />
                 <input
                     class="grid-item"
                     type="text"
                     placeholder="Фамилия"
+                    id="last_name"
                 />
                 <input
                     class="grid-item"
                     type="text"
                     placeholder="ИИН"
+                    id="iin"
                 />
                 <input
                     class="grid-item"
                     type="text"
                     placeholder="Должность"
+                    id="post"
                 />
                 <input
                     class="grid-item"
                     type="text"
                     placeholder="Номер телефона"
+                    id="phone_number"
+                />
+                <input
+                    class="grid-item"
+                    type="text"
+                    placeholder="Пароль"
+                    id="password"
                 />
                 <input
                     class="grid-item grid-btn"
                     type="button"
                     value="Создать аккаунт"
+                    id="create-user-btn"
                 />
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    import axios from 'axios';
+
+    const createUserBtn = document.getElementById('create-user-btn');
+
+    createUserBtn.addEventListener('click', () => {
+        const first_name = document.getElementById('first_name').value;
+        const last_name = document.getElementById('last_name').value;
+        const iin = document.getElementById('iin').value;
+        const phone_number = document.getElementById('phone_number').value;
+        const password = document.getElementById('password').value;
+        const post = document.getElementById('post').value;
+
+        axios.post('http://localhost:8000/api/add_user', { first_name: first_name, last_name: last_name, iin: iin, post: post, phone_number: phone_number, password: password })
+            .then(response => {
+                console.log(response.data);
+                alert('Пользователь создан успешно');
+            })
+            .catch(error => {
+                console.error(error);
+                alert('Произошла ошибка при создании пользователя');
+            });
+    });
+</script>
 
 <style>
     .p700-46 {

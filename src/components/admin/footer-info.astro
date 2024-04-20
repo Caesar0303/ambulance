@@ -2,7 +2,7 @@
 
 ---
 
-<div class="fon">
+<div class="fon ">
     <div class="left-content">
         <button class="grid-item" type="button"
         ><p class="p600-18">Связаться с бригадой</p></button
@@ -10,14 +10,14 @@
         <button class="grid-item" type="button" id="create-brigade-btn"
         ><p class="p600-18">Создать новую бригаду</p></button
         >
-        <button class="grid-item" type="button"
-        ><p class="p600-18">Редактировать</p></button
+        <button id="editBrigadeButton" class="grid-item" type="button"
+        ><p class="p600-18 edit">Редактировать</p></button
         >
         <button class="grid-item get-order" type="button"
         ><p class="p600-18">Отправить на вызов</p></button
         >
     </div>
-    <div class="right-content">
+    <div class="right-content footer">
         <p class="p700-36">Бригада #15</p>
         <p class="p400-16">
             Выполняет вызов: <b>Сейфуллина 15А</b>
@@ -81,21 +81,3 @@
         margin-bottom: 10px;
     }
 </style>
-
-<script>
-    import axios from 'axios';
-
-    const createBrigadeBtn = document.getElementById('create-brigade-btn');
-
-    createBrigadeBtn.addEventListener('click', () => {
-        axios.post('http://localhost:8000/api/add_brigade', { board_number: 12, first_user: 123123, second_user: 1212, third_user: 5132, brigade_tablet_phone_number:64333  })
-            .then(response => {
-                console.log(response.data);
-                alert('Бригада создана успешно');
-            })
-            .catch(error => {
-                console.error(error);
-                alert('Произошла ошибка при создании бригады');
-            });
-    });
-</script>

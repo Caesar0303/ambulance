@@ -17,24 +17,15 @@ import MenuAdmin from "../menu-admin.astro";
                         placeholder="Бортовой номер"
                         id="bort_number"
                 />
-                <input
-                        class="grid-item"
-                        type="text"
-                        placeholder="Водитель"
-                        id="driver"
-                />
-                <input
-                        class="grid-item"
-                        type="text"
-                        placeholder="Фельтшер"
-                        id="feldsher"
-                />
-                <input
-                        class="grid-item"
-                        type="text"
-                        placeholder="Врач"
-                        id="doctor"
-                />
+                <select id="driver">
+
+                </select>
+                <select id="feldsher">
+
+                </select>
+                <select id="doctor">
+
+                </select>
                 <input
                         class="grid-item"
                         type="text"
@@ -53,6 +44,51 @@ import MenuAdmin from "../menu-admin.astro";
 </div>
 <script>
     import axios from 'axios';
+
+    window.addEventListener('load', function() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://localhost:8000/api/users/list', true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var users = JSON.parse(xhr.responseText);
+                console.log(users);
+                renderOptions(users);
+            } else {
+
+                console.error(xhr.statusText);
+            }
+        };
+        xhr.send();
+    });
+
+
+    function renderOptions(users) {
+        var driverSelect = document.getElementById('driver');
+        var feldsherSelect = document.getElementById('feldsher');
+        var doctorSelect = document.getElementById('doctor');
+
+        driverSelect.innerHTML = '';
+        feldsherSelect.innerHTML = '';
+        doctorSelect.innerHTML = '';
+
+        users.forEach(function(user) {
+            var option = document.createElement('option');
+            option.value = user.id;
+            option.textContent = user.first_name;
+
+            // Добавляем опцию для водителя
+            var driverOption = option.cloneNode(true);
+            driverSelect.appendChild(driverOption);
+
+            // Добавляем опцию для фельдшера
+            var feldsherOption = option.cloneNode(true);
+            feldsherSelect.appendChild(feldsherOption);
+
+            // Добавляем опцию для врача
+            var doctorOption = option.cloneNode(true);
+            doctorSelect.appendChild(doctorOption);
+        });
+    }
 
     const createBrigadeBtn = document.getElementById('create-brigade-btn');
 
