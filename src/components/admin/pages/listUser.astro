@@ -14,18 +14,16 @@ import MenuAdmin from "../menu-admin.astro";
                     <p class="p400-28">Добавить сотрудника</p>
                 </div>
 
-                <div class="grid-container">
-                    <p class="p600-20 grid-item">Фио</p>
-                    <p class="p600-20 grid-item">бригада</p>
-                    <p class="p600-20 grid-item">Должность</p>
-
-                    <p class="p600-20 grid-item">Alise Vanckoe</p>
-                    <p class="p600-20 grid-item">15 бригада</p> 
-                    <p class="p600-20 grid-item">Водитель <a href="/userInfo">редактировать</a> <a href="">Удалить</a></p>
-
-                    <p class="p600-20 grid-item">Lirui oneshot</p>
-                    <p class="p600-20 grid-item">15 бригада</p>
-                    <p class="p600-20 grid-item">Санитар</p>
+                <table class="">
+                    <tr>
+                        <td class="p700-16">Фио</td>
+                        <td class="p700-16">бригада</td>
+                        <td class="p700-16">Должность</td>
+                        <td class="p700-16"></td>
+                        <td class="p700-16"></td>
+                    </tr>
+                    <tbody id="usersTableBody" class="p600-20"></tbody>
+                </table>
 <!-- 
                     <p class="p600-20 grid-item">Адрес</p>
                     <p class="p600-20 grid-item">Телефон</p>
@@ -64,7 +62,83 @@ import MenuAdmin from "../menu-admin.astro";
             </div>
         </div>
     </div>
-</div>
+
+<script>
+    window.addEventListener('load', function() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://localhost:8000/api/users/list', true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var users = JSON.parse(xhr.responseText);
+                console.log(users);
+                renderUsers(users);
+            } else {
+
+                console.error(xhr.statusText);
+            }
+        };
+        xhr.send();
+    });
+
+    function renderUsers(users) {
+        var tableBody = document.getElementById('usersTableBody');
+        tableBody.innerHTML = '';
+
+        users.forEach(function(user) {
+            var row = document.createElement('tr');
+
+            var fullNameCell = document.createElement('td');
+            fullNameCell.textContent = user.first_name + ' ' + user.last_name;
+            row.appendChild(fullNameCell);
+
+            var brigadeCell = document.createElement('td');
+            brigadeCell.textContent = user.brigade.id;
+            row.appendChild(brigadeCell);
+
+            var positionCell = document.createElement('td');
+            positionCell.textContent = user.post;
+            row.appendChild(positionCell);
+            tableBody.appendChild(row);
+
+            var brigadeCell = document.createElement('td');
+            var brigadeLink = document.createElement('a');
+            brigadeLink.textContent = 'Редактировать';
+            brigadeLink.href = '/editBrigada?id=' + user.brigade.id;
+            brigadeCell.appendChild(brigadeLink);
+            row.appendChild(brigadeCell);
+
+            var brigadeCell = document.createElement('td');
+            var deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Удалить';
+            deleteButton.id = 'deleteButton-' + user.id;
+            deleteButton.addEventListener('click', function() {
+                var id = user.brigade.id;
+                fetch('http://localhost:8000/api/delete_user/' + user.id, {
+                    method: 'GET',
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Ошибка удаления пользователя');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        location.reload();
+                        console.log(data.message);
+                    })
+                    .catch(error => {
+                        console.error(error.message);
+                    });
+            });
+            brigadeCell.appendChild(deleteButton);
+            row.appendChild(brigadeCell);
+        });
+    }
+
+
+
+
+</script>
 
 <style>
     .p400-28 {
