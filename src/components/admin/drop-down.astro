@@ -1,14 +1,14 @@
 ---
-import { Image, imageConfig } from "astro:assets";
-import down from "../../img/down.svg";
+import { Image, imageConfig } from 'astro:assets';
+import down from '../../img/down.svg';
 ---
-
+ 
 <div class="obertka">
     <div class="front-side">
         <p class="p600-36">Бригады</p>
-        <Image src={down} alt="\/" />
+        <Image src={down} alt="\/" class="img-button" />
     </div>
-    <div class="dropdown">
+    <div class="dropdown active">
         <div class="brigada-status">
             <p class="p400-20">Бригада <b>#1</b></p>
             <p class="p400-16">На базе</p>
@@ -27,29 +27,29 @@ import down from "../../img/down.svg";
         </div>
     </div>
 </div>
-
+ 
 <style>
     .p400-20 {
         color: #000;
-        font-family: "Proxima Nova";
+        font-family: 'Proxima Nova';
         font-size: 20px;
         font-style: normal;
         font-weight: 400;
         line-height: normal;
     }
-
+ 
     .p400-16 {
         color: #000;
-        font-family: "Proxima Nova";
+        font-family: 'Proxima Nova';
         font-size: 16px;
         font-style: normal;
         font-weight: 400;
         line-height: normal;
         opacity: 0.6;
     }
-
+    
     .obertka {
-        padding: 14px 16px 0px 16px;
+        padding: 14px 16px 16px 16px;
         border-radius: 30px;
         background: #fff;
         display: flex;
@@ -58,7 +58,7 @@ import down from "../../img/down.svg";
     }
     .p600-36 {
         color: #000;
-        font-family: "Proxima Nova";
+        font-family: 'Proxima Nova';
         font-size: 36px;
         font-style: normal;
         font-weight: 600;
@@ -71,11 +71,13 @@ import down from "../../img/down.svg";
         align-items: center;
         gap: 70px;
     }
-    .dropdown{
-        display: flex;
+    .dropdown {
+        display: none;
         flex-direction: column;
         gap: 16px;
-
+    }
+    .dropdown.active {
+        display: flex;
     }
     .brigada-status {
         display: flex;
@@ -92,7 +94,13 @@ import down from "../../img/down.svg";
         padding: 4px 0 4px 0;
     }
 </style>
-
-<script>
-
+ 
+<script is:inline>
+    const frontSide = document.querySelector('.img-button');
+    const down = document.querySelector('.dropdown');
+ 
+    frontSide.addEventListener('click', () => {
+        down.classList.toggle('active');
+    });
 </script>
+ 
