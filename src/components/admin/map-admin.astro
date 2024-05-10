@@ -131,14 +131,13 @@ import car from "../../img/car.svg";
             { lat: 43.256241, lng: 76.93148 },
             { lat: 43.22427, lng: 76.87045 },
         ];
-
+        console.log(markers);
         markers.forEach((markerInfo) => {
             const marker = new google.maps.Marker({
                 position: { lat: markerInfo.lat, lng: markerInfo.lng },
                 map,
                 icon: image,
             });
-
             marker.addListener("click", () => {
                 alert("Hello world");
             });
@@ -247,6 +246,7 @@ import car from "../../img/car.svg";
         brigadeDoctorText.style.fontSize = "16px";
         brigadeDoctorText.textContent = "Доктор: " + data.doctor.first_name;
 
+
         brigadeStatus.appendChild(brigadeNumber);
         brigadeStatus.appendChild(brigadeNumberText);
         brigadeStatus.appendChild(brigadeDriverText);
@@ -255,7 +255,9 @@ import car from "../../img/car.svg";
         footer.appendChild(brigadeStatus);
 
         var editBrigadeButton = document.getElementById("editBrigadeButton");
+
         editBrigadeButton.addEventListener("click", function () {
+            console.log(data.id);
             window.location.href = "/editBrigada?id=" + data.id;
         });
     }

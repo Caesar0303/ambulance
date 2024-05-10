@@ -9,24 +9,64 @@ import Menu from "../main/menu.astro";
                 <Menu class="menu" />
             </div>
             <div class="content">
-                <p class="p700-56">Бригада</p>
-                <div class="grid-container">
-                    <p class="p600-20 grid-item">Имя</p>
-                    <p class="p600-20 grid-item">Должность</p>
-
-                    <p class="p600-20 grid-item">Смолов Алексей Хохольский</p>
-                    <p class="p600-20 grid-item">Врач</p>
-
-                    <p class="p600-20 grid-item">Бисекенов Акылбек Фиферович</p>
-                    <p class="p600-20 grid-item">Видитель</p>
-
-                    <p class="p600-20 grid-item">Баллотели Марио Альбертович</p>
-                    <p class="p600-20 grid-item">Фельтшер</p>
-                </div>
+                <p class="p700-56">Моя бригада</p>
+                <table class="">
+                    <tr>
+                        <td class="p700-16">Имя</td>
+                        <td class="p700-16">Должность</td>
+                        <td class="p700-16"></td>
+                        <td class="p700-16"></td>
+                    </tr>
+                    <tbody id="usersTableBody" class="p600-20"></tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    window.addEventListener('load', function() {
+        const brigade_id = sessionStorage.getItem('brigade_id');
+        console.log(brigade_id);
+        const xhr = new XMLHttpRequest();
+        const url = `http://localhost:8000/api/my_brigade/${brigade_id}`;
+
+        xhr.open('GET', url, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var users = JSON.parse(xhr.responseText);
+                console.log(users)
+                renderBrigade(users.myBridage);
+            } else {
+
+                console.error(xhr.statusText);
+            }
+        };
+        xhr.send();
+    });
+
+
+    function renderBrigade(users) {
+        const usersTableBody = document.getElementById('usersTableBody');
+        usersTableBody.innerHTML = ''; // Очистим таблицу перед заполнением новыми данными
+
+        usersTableBody.innerHTML += `
+            <tr>
+                <td class="p700-16">${users.doctor.first_name} ${users.doctor.last_name}</td>
+                <td class="p700-16">Доктор</td>
+            </tr>
+            <tr>
+                <td class="p700-16">${users.driver.first_name} ${users.driver.last_name}</td>
+                <td class="p700-16">Водитель</td>
+            </tr>
+            <tr>
+                <td class="p700-16">${users.feldsher.first_name} ${users.feldsher.last_name}</td>
+                <td class="p700-16">Фельдшер</td>
+            </tr>
+        `;
+    }
+
+</script>
 
 <style>
     .p700-56 {

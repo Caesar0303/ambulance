@@ -4,6 +4,7 @@ import user from "../img/user-logo-stok.svg";
 import done from "../img/done.svg";
 ---
 
+
 <div class="fluid">
     <div class="container">
         <div class="login-box">
@@ -15,7 +16,7 @@ import done from "../img/done.svg";
                 <input
                     class="login"
                     type="text"
-                    id="username"
+                    id="iin"
                     placeholder="ИИН"
                     required
                 />
@@ -36,6 +37,48 @@ import done from "../img/done.svg";
         </div>
     </div>
 </div>
+
+<script>
+    import axios from "axios";
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const iin = document.getElementById('iin').value;
+            const password = document.getElementById('password').value;
+
+            axios.post('http://localhost:8000/api/login', {iin: iin, password: password})
+                .then(response => {
+                    if (response.data.success) {
+                        // Сохраняем информацию о состоянии авторизации в sessionStorage
+                        sessionStorage.setItem('isAuthenticated', 'true');
+                        console.log(response.data.user);
+
+                        // Дополнительно сохраняем данные пользователя, если они возвращаются из API
+                        if (response.data.user) {
+                            sessionStorage.setItem('id', response.data.user.id);
+                            sessionStorage.setItem('first_name', response.data.user.first_name);
+                            sessionStorage.setItem('last_name', response.data.user.last_name);
+                            sessionStorage.setItem('iin', response.data.user.iin);
+                            sessionStorage.setItem('post', response.data.user.post);
+                            sessionStorage.setItem('phone_number', response.data.user.phone_number);
+                            sessionStorage.setItem('brigade_id', response.data.user.brigade_id);
+                        }
+                        window.location.href = '/userPage';
+
+                    } else {
+                        alert('Неверные данные');
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+    });
+</script>
+
 
 <style>
     .p700-30 {
