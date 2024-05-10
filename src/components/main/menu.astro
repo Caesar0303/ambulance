@@ -13,14 +13,14 @@ import close from "../../img/close-fill.svg";
         <div class="menu-content">
             <div class="left-content">
                 <Image src={avatar} alt="avatar" />
-                <p class="p700-32">Жомарт Омар <br /> Дарханұлы</p>
+                <p class="p700-32"><span class="first-name"></span> <span class="last-name"> </span></p>
             </div>
             <div class="right-content">
                 <a href="/userPage" class="p400-24"><b>Главная</b></a>
                 <a href="/ordersMain" class="p400-24">Мои вызовы</a>
                 <a href="/brigadaMain" class="p400-24">Моя бригада</a>
-                <a href="#!" class="p400-24">SOS</a>
-                <a href="#!" class="p400-24">Связаться с базой</a>
+                <a href="tel:+77074792927" class="p400-24">SOS</a>
+                <a href="tel:+77477884529" class="p400-24">Связаться с базой</a>
                 <div class="under-content">
                     <a href="#" class="psw gray">
                         <svg
@@ -37,6 +37,7 @@ import close from "../../img/close-fill.svg";
                         <p class="p700-24 m0">Изменить пароль</p>
                     </a>
                     <Logout />
+                    <a class="p700-24" href="/admin">перейти на Admin</a>
 
                 </div>
             </div>
@@ -48,6 +49,18 @@ import close from "../../img/close-fill.svg";
 <a href="#zatemnenie" class="btm-none-dec">
     <Image src={menu} alt="menu" />
 </a>
+
+<script>
+    console.log(sessionStorage);
+    const userNameElement = document.querySelector('.first-name');
+    const userLastElement = document.querySelector('.last-name');
+    const userName = sessionStorage.getItem('first_name');
+    const lastName = sessionStorage.getItem('last_name');
+
+    userNameElement.textContent = userName;
+    userLastElement.textContent = lastName;
+
+</script>
 
 <style>
     .p400-24 {
@@ -149,6 +162,7 @@ import close from "../../img/close-fill.svg";
         left: 0;
         margin: auto;
         background: #fff;
+        z-index: 66;
     }
     #zatemnenie:target {
         display: block;

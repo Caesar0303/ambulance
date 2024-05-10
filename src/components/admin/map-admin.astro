@@ -1,108 +1,48 @@
 ---
 import { Image, imageConfig } from "astro:assets";
-import Menu from "../main/menu.astro";
+import MenuAdmin from "./menu-admin.astro";
 import Footer from "./footer-info.astro";
 import DropDown from "./drop-down.astro";
+import car from "../../img/car.svg";
 ---
 
-<div class="fluid">
-    <div class="container">
-        <div class="content">
-            <div class="header">
-                <Menu />
-                <DropDown />
-            </div>
-            <Footer />
-        </div>
+<!-- <div class="container left">
+    <MenuAdmin />
+</div>
+<div class="container right">
+    <MenuAdmin />
+</div> -->
+<div class="container">
+    <div class="header">
+        <MenuAdmin />
+        <DropDown />
     </div>
 </div>
+<div id="map"></div>
 
-<script>
-    window.addEventListener('load', function() {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://localhost:8000/api/brigade/list', true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                var brigades = JSON.parse(xhr.responseText);
-                renderBrigades(brigades);
-            } else {
+<div class="foot container">
+    <Footer />
+</div>
 
-                console.error(xhr.statusText);
-            }
-        };
-        xhr.send();
-    });
-
-    function fetchBrigadeDetails(brigadeId) {
-        fetch('http://localhost:8000/api/brigade/show/' + brigadeId)
-            .then(response => response.json())
-            .then(data => {
-                renderBrigadeDetails(data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }
-
-    function renderBrigadeDetails(data) {
-        var footer = document.querySelector('.footer');
-        console.log(footer);
-
-        footer.innerHTML = '';
-
-        var brigadeStatus = document.createElement('div');
-        brigadeStatus.classList.add('brigada-status');
-        var brigadeNumber = document.createElement('p');
-        brigadeNumber.style.fontSize = '36px';
-        brigadeNumber.style.fontWeight = 'bold';
-        brigadeNumber.textContent = 'Бригада #' + data.board_number;
-        var brigadeNumberText = document.createElement('p');
-        brigadeNumberText.style.fontSize = '16px';
-        brigadeNumberText.textContent = 'Номер планшета: ' + data.brigade_tablet_phone_number;
-        var brigadeDriverText = document.createElement('p');
-        brigadeDriverText.style.fontSize = '16px';
-        brigadeDriverText.textContent = 'Водитель: ' + data.driver.first_name;
-        var brigadeFeldsherText = document.createElement('p');
-        brigadeFeldsherText.style.fontSize = '16px';
-        brigadeFeldsherText.textContent = 'Фельдшер: ' + data.feldsher.first_name;
-        var brigadeDoctorText = document.createElement('p');
-        brigadeDoctorText.style.fontSize = '16px';
-        brigadeDoctorText.textContent = 'Доктор: ' + data.doctor.first_name;
-
-        brigadeStatus.appendChild(brigadeNumber);
-        brigadeStatus.appendChild(brigadeNumberText);
-        brigadeStatus.appendChild(brigadeDriverText);
-        brigadeStatus.appendChild(brigadeFeldsherText);
-        brigadeStatus.appendChild(brigadeDoctorText);
-        footer.appendChild(brigadeStatus);
-
-        var editBrigadeButton = document.getElementById('editBrigadeButton');
-        editBrigadeButton.addEventListener('click', function() {
-            window.location.href = '/editBrigada?id=' + data.id;
-        });
-    }
-    function renderBrigades(brigades) {
-        var dropdown = document.querySelector('.dropdown');
-        dropdown.innerHTML = '';
-        brigades.forEach(function(brigade) {
-            var brigadeStatus = document.createElement('div');
-            brigadeStatus.classList.add('brigada-status');
-            var brigadeNumber = document.createElement('p');
-            brigadeNumber.classList.add('p400-20');
-            brigadeNumber.textContent = 'Бригада #' + brigade.board_number;
-            brigadeNumber.addEventListener('click', function() {
-                fetchBrigadeDetails(brigade.id);
-            });
-            var brigadeStatusText = document.createElement('p');
-            brigadeStatusText.classList.add('p400-16');
-            brigadeStatusText.textContent = brigade.status;
-            brigadeStatus.appendChild(brigadeNumber);
-            brigadeStatus.appendChild(brigadeStatusText);
-            dropdown.appendChild(brigadeStatus);
-        });
-    }
-</script>
 <style>
+    .p400-20 {
+        color: #000;
+        font-family: "Proxima Nova";
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+    .left {
+        position: absolute;
+        top: 26px;
+        left: 0;
+    }
+    .right {
+        position: absolute;
+        right: 26px;
+        left: 0;
+    }
     .content {
         display: flex;
         width: 100%;
@@ -116,4 +56,229 @@ import DropDown from "./drop-down.astro";
         justify-content: space-between;
         align-items: flex-start;
     }
+    .foot {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    #map {
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
 </style>
+
+<script
+    is:inline
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBF6sm6Xs-d50sQ0wxfKWzESIIsPdukfAA"
+></script>
+<script is:inline>
+    var destinationLat = 43.24387094622234; // Пример широты
+    var destinationLng = 76.89948986861928; // Пример долготы
+
+    function initMap() {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var currentLat = position.coords.latitude;
+            var currentLng = position.coords.longitude;
+            createRoute(currentLat, currentLng, destinationLat, destinationLng);
+            brigadeMarkers(currentLat, currentLng); // Передаем текущие координаты
+        });
+    }
+
+    function brigadeMarkers(currentLat, currentLng) {
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 13,
+            center: { lat: 43.24676, lng: 76.9258 },
+        });
+
+        const imageSize = new google.maps.Size(30, 30); // Задаем размер изображения 32x32
+        const imageGreen = "src/img/car-icons/ambulance-green.svg"; // Зеленый
+        const imageRed = "src/img/car-icons/ambulance-red.svg"; // Красный
+        const imageGray = "src/img/car-icons/ambulance-gray.svg"; // Серый
+
+        const image = {
+            url: imageRed,
+            scaledSize: imageSize, // Устанавливаем размер изображения
+        };
+
+        const markers = [
+            { lat: 43.226315575187584, lng: 76.89908128893268 },
+            { lat: 43.26151139102274, lng: 76.94767202037656 },
+            { lat: 43.23163539599144, lng: 76.90312876451848 },
+            { lat: 43.24772111316564, lng: 76.85329468126376 },
+            { lat: 43.24761070799954, lng: 76.91109494581453 },
+            { lat: 43.23352808359029, lng: 76.89278915055422 },
+            { lat: 43.25764975841758, lng: 76.91118142196638 },
+            { lat: 43.26054790034979, lng: 76.87254006715753 },
+            { lat: 43.23034728120292, lng: 76.93387513965152 },
+            { lat: 43.20029, lng: 76.90229 },
+            { lat: 43.24631, lng: 76.94005 },
+            { lat: 43.25069, lng: 76.88821 },
+            { lat: 43.23691, lng: 76.8771 },
+            { lat: 43.24235, lng: 76.94923 },
+            { lat: 43.23413, lng: 76.9261 },
+            { lat: 43.25804, lng: 76.92985 },
+            { lat: 43.2176, lng: 76.95233 },
+            { lat: 43.25623, lng: 76.9315 },
+            { lat: 43.256239, lng: 76.93151 },
+            { lat: 43.25646, lng: 76.93123 },
+            { lat: 43.256232, lng: 76.9315 },
+            { lat: 43.256241, lng: 76.93148 },
+            { lat: 43.22427, lng: 76.87045 },
+        ];
+        console.log(markers);
+        markers.forEach((markerInfo) => {
+            const marker = new google.maps.Marker({
+                position: { lat: markerInfo.lat, lng: markerInfo.lng },
+                map,
+                icon: image,
+            });
+            marker.addListener("click", () => {
+                alert("Hello world");
+            });
+        });
+    }
+
+    function createRoute(
+        currentLat,
+        currentLng,
+        destinationLat,
+        destinationLng,
+    ) {
+        var directionsService = new google.maps.DirectionsService();
+        var directionsRenderer = new google.maps.DirectionsRenderer();
+        var map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 7,
+            center: { lat: currentLat, lng: currentLng },
+        });
+
+        directionsRenderer.setMap(map);
+
+        var request = {
+            origin: new google.maps.LatLng(currentLat, currentLng),
+            destination: new google.maps.LatLng(destinationLat, destinationLng),
+            travelMode: google.maps.TravelMode.DRIVING,
+        };
+
+        directionsService.route(request, function (result, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                directionsRenderer.setDirections(result);
+
+                // Показываем детали маршрута
+
+                var legs = result.routes[0].legs;
+                for (var i = 0; i < legs.length; i++) {
+                    var leg = legs[i];
+                    var distance = leg.distance.text;
+                    var duration = leg.duration.text;
+                    var instructions = leg.steps
+                        .map(function (step) {
+                            return step.instructions;
+                        })
+                        .join("<br>");
+
+                    var distanceEl = document.getElementById("distance");
+                    var timeEl = document.getElementById("time");
+                    distanceEl.innerHTML = distance;
+                    timeEl.innerHTML = duration;
+                }
+            } else {
+                console.error("Запрос на маршрут не удался из-за " + status);
+            }
+        });
+    }
+    initMap();
+
+    window.addEventListener("load", function () {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "http://localhost:8000/api/brigade/list", true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var brigades = JSON.parse(xhr.responseText);
+                renderBrigades(brigades);
+            } else {
+                console.error(xhr.statusText);
+            }
+        };
+        xhr.send();
+    });
+
+    function fetchBrigadeDetails(brigadeId) {
+        fetch("http://localhost:8000/api/brigade/show/" + brigadeId)
+            .then((response) => response.json())
+            .then((data) => {
+                renderBrigadeDetails(data);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    }
+
+    function renderBrigadeDetails(data) {
+        var footer = document.querySelector(".footer");
+        console.log(footer);
+
+        footer.innerHTML = "";
+
+        var brigadeStatus = document.createElement("div");
+        brigadeStatus.classList.add("brigada-status");
+        var brigadeNumber = document.createElement("p");
+        brigadeNumber.style.fontSize = "36px";
+        brigadeNumber.style.fontWeight = "bold";
+        brigadeNumber.textContent = "Бригада #" + data.board_number;
+        var brigadeNumberText = document.createElement("p");
+        brigadeNumberText.style.fontSize = "16px";
+        brigadeNumberText.textContent =
+            "Номер планшета: " + data.brigade_tablet_phone_number;
+        var brigadeDriverText = document.createElement("p");
+        brigadeDriverText.style.fontSize = "16px";
+        brigadeDriverText.textContent = "Водитель: " + data.driver.first_name;
+        var brigadeFeldsherText = document.createElement("p");
+        brigadeFeldsherText.style.fontSize = "16px";
+        brigadeFeldsherText.textContent =
+            "Фельдшер: " + data.feldsher.first_name;
+        var brigadeDoctorText = document.createElement("p");
+        brigadeDoctorText.style.fontSize = "16px";
+        brigadeDoctorText.textContent = "Доктор: " + data.doctor.first_name;
+
+
+        brigadeStatus.appendChild(brigadeNumber);
+        brigadeStatus.appendChild(brigadeNumberText);
+        brigadeStatus.appendChild(brigadeDriverText);
+        brigadeStatus.appendChild(brigadeFeldsherText);
+        brigadeStatus.appendChild(brigadeDoctorText);
+        footer.appendChild(brigadeStatus);
+
+        var editBrigadeButton = document.getElementById("editBrigadeButton");
+
+        editBrigadeButton.addEventListener("click", function () {
+            console.log(data.id);
+            window.location.href = "/editBrigada?id=" + data.id;
+        });
+    }
+    function renderBrigades(brigades) {
+        var dropdown = document.querySelector(".dropdown");
+        dropdown.innerHTML = "";
+        brigades.forEach(function (brigade) {
+            var brigadeStatus = document.createElement("div");
+            brigadeStatus.classList.add("brigada-status");
+            var brigadeNumber = document.createElement("p");
+            brigadeNumber.classList.add("p400-20");
+            brigadeNumber.textContent = "Бригада #" + brigade.board_number;
+            brigadeNumber.addEventListener("click", function () {
+                fetchBrigadeDetails(brigade.id);
+            });
+            var brigadeStatusText = document.createElement("p");
+            brigadeStatusText.classList.add("p400-16");
+            brigadeStatusText.textContent = brigade.status;
+            brigadeStatus.appendChild(brigadeNumber);
+            brigadeStatus.appendChild(brigadeStatusText);
+            dropdown.appendChild(brigadeStatus);
+        });
+    }
+</script>
