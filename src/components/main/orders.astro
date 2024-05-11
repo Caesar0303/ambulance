@@ -10,32 +10,77 @@ import Menu from "../main/menu.astro";
             </div>
             <div class="content">
                 <p class="p700-56">Мои вызовы</p>
-                <div class="grid-container">
-                    <p class="p600-20 grid-item">Адрес</p>
-                    <p class="p600-20 grid-item">Время прибытия</p>
-                    <p class="p600-20 grid-item">Общее время</p>
-                    <p class="p600-20 grid-item">Категория</p>
+                    <!--<p class="p600-20 grid-item">Адрес</p>-->
+                    <!--<p class="p600-20 grid-item">Время прибытия</p>-->
+                    <!--<p class="p600-20 grid-item">Общее время</p>-->
+                    <!--<p class="p600-20 grid-item">Категория</p>-->
 
-                    <p class="p600-20 grid-item">Наурызбай батыра 69А</p>
-                    <p class="p600-20 grid-item">12:32</p>
-                    <p class="p600-20 grid-item">32:56</p>
-                    <p class="p600-20 grid-item">1 Категория</p>
-
-
-                    <p class="p600-20 grid-item">Хахольская 324</p>
-                    <p class="p600-20 grid-item">12:32</p>
-                    <p class="p600-20 grid-item">32:56</p>
-                    <p class="p600-20 grid-item">2 Категория</p>
-
-                    <p class="p600-20 grid-item">Хахольская 324</p>
-                    <p class="p600-20 grid-item">12:32</p>
-                    <p class="p600-20 grid-item">32:56</p>
-                    <p class="p600-20 grid-item">3 Категория</p>
-                </div>
+                <table class="">
+                    <tr>
+                        <td class="p700-16">Имя</td>
+                        <td class="p700-16">Время прибытия</td>
+                        <td class="p700-16">Общее время</td>
+                        <td class="p700-16">Категория</td>
+                    </tr>
+                    <tbody id="usersTableBody" class="p600-20"></tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    window.addEventListener('load', function() {
+        const brigade_id = sessionStorage.getItem('brigade_id');
+        console.log(brigade_id);
+        const xhr = new XMLHttpRequest();
+        const url = `http://localhost:8000/api/my_histories/${brigade_id}`;
+
+        xhr.open('GET', url, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var histories = JSON.parse(xhr.responseText);
+                console.log(histories.myHistories)
+                renderBrigade(histories)
+            } else {
+                console.error(xhr.statusText);
+            }
+        };
+        xhr.send();
+    });
+
+    function renderBrigade(histories) {
+        const tableBody = document.getElementById('usersTableBody');
+        tableBody.innerHTML = '';
+        histories.myHistories.forEach(function(history) {
+            const row = document.createElement('tr');
+
+            // Create cells for each field of the call history
+            const nameCell = document.createElement('td');
+            nameCell.textContent = history.address;
+
+            const arrivalTimeCell = document.createElement('td');
+            arrivalTimeCell.textContent = history.arrival_time;
+
+            const generalTimeCell = document.createElement('td');
+            generalTimeCell.textContent = history.general_time;
+
+            const categoryCell = document.createElement('td');
+            categoryCell.textContent = history.category;
+
+            // Add the created cells to the row
+            row.appendChild(nameCell);
+            row.appendChild(arrivalTimeCell);
+            row.appendChild(generalTimeCell);
+            row.appendChild(categoryCell);
+
+            // Add the row to the table
+            tableBody.appendChild(row);
+        });
+    }
+
+
+</script>
 
 <style>
     .p700-56 {
