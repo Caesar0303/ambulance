@@ -92,8 +92,14 @@ import MenuAdmin from "../menu-admin.astro";
             row.appendChild(fullNameCell);
 
             var brigadeCell = document.createElement('td');
-            brigadeCell.textContent = user.brigade.id;
-            row.appendChild(brigadeCell);
+
+            if (user.brigade === null) {
+                brigadeCell.textContent = "Не назначен";
+                row.appendChild(brigadeCell);
+            } else {
+                brigadeCell.textContent = user.brigade.board_number;
+                row.appendChild(brigadeCell);
+            }
 
             var positionCell = document.createElement('td');
             positionCell.textContent = user.post;
@@ -103,7 +109,7 @@ import MenuAdmin from "../menu-admin.astro";
             var brigadeCell = document.createElement('td');
             var brigadeLink = document.createElement('a');
             brigadeLink.textContent = 'Редактировать';
-            brigadeLink.href = '/editBrigada?id=' + user.brigade.id;
+            brigadeLink.href = '/editUser?id=' + user.id;
             brigadeCell.appendChild(brigadeLink);
             row.appendChild(brigadeCell);
 
@@ -112,7 +118,7 @@ import MenuAdmin from "../menu-admin.astro";
             deleteButton.textContent = 'Удалить';
             deleteButton.id = 'deleteButton-' + user.id;
             deleteButton.addEventListener('click', function() {
-                var id = user.brigade.id;
+                var id = user.id;
                 fetch('http://localhost:8000/api/delete_user/' + user.id, {
                     method: 'GET',
                 })

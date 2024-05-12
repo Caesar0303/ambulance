@@ -40,7 +40,7 @@ import MenuAdmin from "../menu-admin.astro";
             </div>
 
             <div class="empty">
-                <a href="#!" class="delete">Удалить бригаду</a>
+                <button class="delete" id="delete-brigade-btn">Удалить бригаду</button>
             </div>
 
         </div>
@@ -78,6 +78,22 @@ import MenuAdmin from "../menu-admin.astro";
         };
         xhr.send();
     });
+        const deleteBrigadeBtn = document.getElementById('delete-brigade-btn');
+
+        deleteBrigadeBtn.addEventListener('click', () => {
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'http://localhost:8000/api/delete_brigade/' + id, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(JSON.parse(xhr.responseText));
+                    window.location.href = '/admin';
+                    } else {
+                    console.error(xhr.statusText);
+                    }
+                };
+            xhr.send();
+            });
 
     function renderOptions(users) {
         var driverSelect = document.getElementById('driver');

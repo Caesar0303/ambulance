@@ -238,14 +238,14 @@ import car from "../../img/car.svg";
         var brigadeDriverText = document.createElement("p");
         brigadeDriverText.style.fontSize = "16px";
         brigadeDriverText.textContent = "Водитель: " + data.driver.first_name;
+
         var brigadeFeldsherText = document.createElement("p");
         brigadeFeldsherText.style.fontSize = "16px";
-        brigadeFeldsherText.textContent =
-            "Фельдшер: " + data.feldsher.first_name;
+        brigadeFeldsherText.textContent = "Фельдшер: " + (data.feldsher ? data.feldsher.first_name : "Не назначен");
+
         var brigadeDoctorText = document.createElement("p");
         brigadeDoctorText.style.fontSize = "16px";
-        brigadeDoctorText.textContent = "Доктор: " + data.doctor.first_name;
-
+        brigadeDoctorText.textContent = "Доктор: " + (data.doctor ? data.doctor.first_name : "Не назначен");
 
         brigadeStatus.appendChild(brigadeNumber);
         brigadeStatus.appendChild(brigadeNumberText);
@@ -261,6 +261,7 @@ import car from "../../img/car.svg";
             window.location.href = "/editBrigada?id=" + data.id;
         });
     }
+
     function renderBrigades(brigades) {
         var dropdown = document.querySelector(".dropdown");
         dropdown.innerHTML = "";

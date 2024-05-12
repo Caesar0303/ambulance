@@ -1,0 +1,174 @@
+---
+import MenuAdmin from "../menu-admin.astro";
+---
+
+<div class="fluid">
+    <div class="container">
+        <div class="left-menu">
+            <MenuAdmin class="menu" />
+        </div>
+        <div class="telo">
+            <p class="p700-46">Редактировать аккaунт</p>
+            <div class="grid-container">
+                <input
+                    class="grid-item"
+                    type="text"
+                    placeholder="Имя"
+                    id="first_name"
+                />
+                <input
+                    class="grid-item"
+                    type="text"
+                    placeholder="Фамилия"
+                    id="last_name"
+                />
+                <input
+                    class="grid-item"
+                    type="text"
+                    placeholder="ИИН"
+                    id="iin"
+                />
+                <input
+                    class="grid-item"
+                    type="text"
+                    placeholder="Должность"
+                    id="post"
+                />
+                <input
+                    class="grid-item"
+                    type="text"
+                    placeholder="Номер телефона"
+                    id="phone_number"
+                />
+                <input
+                    class="grid-item"
+                    type="text"
+                    placeholder="Пароль"
+                    required
+                    id="password"
+                />
+                <input
+                    class="grid-item grid-btn"
+                    type="button"
+                    value="Создать аккаунт"
+                    id="create-user-btn"
+                />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    import axios from 'axios';
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+
+    window.addEventListener('load', function() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://localhost:8000/api/editUser/' + id, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var user = JSON.parse(xhr.responseText);
+                console.log(user);
+
+                document.getElementById('first_name').value = user.first_name;
+                document.getElementById('last_name').value = user.last_name;
+                document.getElementById('iin').value = user.iin;
+                document.getElementById('phone_number').value = user.phone_number;
+                document.getElementById('post').value = user.post;
+            } else {
+                console.error(xhr.statusText);
+            }
+        };
+        xhr.send();
+    });
+
+    const createUserBtn = document.getElementById('create-user-btn');
+
+    createUserBtn.addEventListener('click', () => {
+        const first_name = document.getElementById('first_name').value;
+        const last_name = document.getElementById('last_name').value;
+        const iin = document.getElementById('iin').value;
+        const phone_number = document.getElementById('phone_number').value;
+        const password = document.getElementById('password').value;
+        const post = document.getElementById('post').value;
+
+        axios.post('http://localhost:8000/api/updateUser/' + id, { first_name: first_name, last_name: last_name, iin: iin, post: post, phone_number: phone_number, password: password })
+            .then(response => {
+                console.log(response.data);
+                alert('Пользователь редактировн успешно');
+            })
+            .catch(error => {
+                console.error(error);
+                alert('Произошла ошибка при редактирований пользователя');
+            });
+    });
+
+</script>
+
+<style>
+    .p700-46 {
+        color: #323232;
+        font-family: "Proxima Nova";
+        font-size: 46px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+    }
+    .left-menu {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 30px;
+    }
+    .container .p700-46 {
+        margin-top: 10vh;
+    }
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto auto; /* 2 столбца */
+        grid-template-rows: auto auto auto; /* 3 строки */
+        gap: 30px; /* пространство между ячейками */
+        margin-top: 40px;
+    }
+    .grid-item {
+        padding: 20px 20px 20px 36px;
+        border: 1px solid #fff;
+        text-align: start;
+        border-radius: 50px;
+        background: #fff;
+        color: #282828;
+        font-family: "Proxima Nova";
+        font-size: 24px;
+        font-style: normal;
+
+        font-weight: 400;
+        line-height: normal;
+    }
+    .grid-btn {
+        background: #007aff;
+        color: #fff;
+        text-align: center;
+        width: 100%;
+
+    }
+    .grid-item:hover {
+        background: #f5f5f5;
+        border: 1px solid #fff;
+    }
+    .grid-item:active {
+        background: #f5f5f5;
+        border: 1px solid #fff;
+    }
+
+    .grid-btn:hover {
+        background-color: #0070e8;
+    }
+    .grid-btn:active {
+        box-shadow:
+            inset -3px -3px 3px rgb(255 255 255 / 60%),
+            inset 2px 2px 3px rgb(0 0 0 / 60%);
+    }
+    
+</style>
